@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+  <head>
+    <title>Add Friend</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- remove this for good font -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- remove this for good font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel = 'stylesheet' href ="{% static "css/user_profile.css" %}"/> 
+    <link rel = 'stylesheet' href ="{% static "css/home_css.css" %}"/> 
+
+    <script>
+          ('.toast').toast('show');
+    </script>
+  </head>
+  <body style='background-image: linear-gradient(white 10%, #ffffff , #ffffff   ) ; '>
+      {% block foo %}
+      {% include "app2/main_index.html" %}
+	 {% endblock %}
+	 
+	 <p class='main_heading' >Search User</p>
+
+	 <div class='initial_form'>
+		<form action="{% url 'app1:search' %}" method="POST" value="{{request.GET.q}}">
+			{% csrf_token %}
+			<input class='search_bar' type="text" name="q" values="{{request.GET.q}}" placeholder="Search Here">
+			<input class='pricingTable-firstTable_table__getstart' style='width:150px; height:60px; padding-top: 0px; ' type="submit" name="submit" value="search">
+		</form>
+	</div>
+	 
+	 {% if result %}
+		 <h2  class='result_out' style='margin-left: 350px;' >Results for <b>{{ request.GET.q }}</b> <b>{{result.email}}</b></h2>
+	
+		 {% if is_friend is not True %}
+		 <div class='initial_form'>
+			 <form action="{% url 'app1:search' %}" method="POST" >
+				 {% csrf_token %}
+				 <input class='pricingTable-firstTable_table__getstart' style='width:350px; height:60px; padding-top: 0px; '  type="submit" name="add" value='Click To Add Friend'>
+			 </form>
+		</div>
+		 {% else %}
+		 <br>
+		 <div style='width: 100%; border-top: 4px solid rgb(206, 221, 178);'></div>
+
+			 <h3 class='normal_text' >This User is already a Friend</h3>
+		 {% endif %}
+	 
+	 
+	 {% elif success %}
+	 <br>
+
+	 	<div style='width: 100%; border-top: 4px solid rgb(206, 221, 178);'></div>
+			 
+		 <h2 class='result_out'>Friend is added Succesfully</h2>	
+	 
+	 {% else %}
+	 <br>
+	 <div style='width: 100%; border-top: 4px solid rgb(206, 221, 178);'></div>
+
+		 <h2 class='result_out'>No Search Result</h2>	
+	 {% endif %}
+
+	 
+  </body>
+
+  
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

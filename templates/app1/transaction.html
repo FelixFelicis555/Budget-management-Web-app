@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+  <head>
+    <title>Add Transaction</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- remove this for good font -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- remove this for good font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel = 'stylesheet' href ="{% static "css/user_profile.css" %}"/> 
+    <link rel = 'stylesheet' href ="{% static "css/home_css.css" %}"/> 
+
+     <style>
+        .text_field{
+          font-size:30px;
+          color:rgb(50, 51, 42);
+          font-family: Advent Pro;
+          margin-left: 30px;
+          display:table-cell;
+  
+        }
+        .text_label{
+          font-size:40px;
+          color:rgb(62, 63, 54);
+          margin-bottom: 20px;
+          font-family: Advent Pro;
+          display:table-cell;
+  
+        }
+        .submitbutton{
+          margin-left:350px;
+          width:240px;
+          height:80px;
+          padding-top: 10px;
+          font-family:  Advent Pro;
+          font-size:30px;
+          font-weight: bold;
+        }
+  
+        .main_heading{
+        color:black;
+        margin-left:430px;
+        margin-top: 100px;
+        font-family: Advent Pro;
+        font-size: 50px;
+        }
+        .drop_down_menu{  
+          width: 100px;
+          color:red;
+          margin-left: 30px;
+          position: relative;
+          display: inline-block;
+        }
+        .drop_down_menu-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          padding: 12px 16px;
+          z-index: 1;
+        }
+        .main_heading{
+      color:black;
+      margin-left:300px;
+      margin-top: 100px;
+      font-family: Advent Pro;
+      font-size: 50px;
+      }
+  
+      </style>
+  </head>
+  <body style='background-image: linear-gradient(white 10%, #a38f8f   ) ; '>
+      {% block foo %}
+      {% include "app2/main_index.html" %}
+     {% endblock %}
+     <p class='main_heading' >Add Trasaction With {{passed_email}}</p>
+	 <div class="container">
+			<div class="jumbotron" style='background-image: linear-gradient( #dac0c0 , rgb(255, 255, 255)   ) ; '>
+        
+				<form action="{% url 'app1:transaction' %}" , method='POST'>
+		  
+            {% csrf_token %}
+            {% for field in form%}
+            <p style='display: table-row'>
+            <label class="text_label" for='name'>{{field.label}} :</label>
+            <span class="text_label" style='margin-left:px; padding-right:50px; visibility: hidden;'>:</span>
+            {{field}} <br>
+          </p>
+            {%endfor%}
+            <input class='pricingTable-firstTable_table__getstart submitbutton' style='color: rgb(54, 47, 47); ' type="submit" name="add" value="Add Transaction">      
+				</form>
+				{% if to_friend %}
+					<h2>Transaction Successfull</h2>
+				{% elif to_user %}
+					<h2>This User Is not your friend , first add him in friend page</h2>
+				{% elif is_click %}
+					<h2>This user does not exist</h2>
+				{% endif %}
+      </div>  
+        </div>
+  </body>
+</html>
+
+
+
+
+

@@ -1,0 +1,83 @@
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+  <head>
+    <title>Main</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- remove this for good font -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- remove this for good font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel = 'stylesheet' href ="{% static "css/user_profile.css" %}"/> 
+    <link rel = 'stylesheet' href ="{% static "css/home_css.css" %}"/> 
+    <style>
+
+        .submitbutton{
+          margin-left:350px;
+          width:240px;
+          height:80px;
+          padding-top: 10px;
+          font-family:  Advent Pro;
+          font-size:20px;
+          font-weight: bold;
+        }
+  
+        .main_heading{
+        color:black;
+        margin-left:320px;
+        margin-top: 100px;
+        font-family: Advent Pro;
+        font-size: 100px;
+        }
+  
+      </style>
+  </head>
+  <body style='background-image: linear-gradient(white 10%, #ffffff , #ffffff   ) ; '>
+      {% block foo %}
+      {% include "app2/main_index.html" %}
+     {% endblock %}
+
+     
+     <div class="container">
+        <div class="jumbotron">
+        {% if can %}
+            <p class='main_heading' >Account Deleted Successfully</p>
+        {% elif can is False %}
+            <p class='main_heading' >You Have Some Unsettled Transaction Remaining , Settle Them to Delete Account</p>
+        {% else %}
+          <p class='main_heading'>Are You Sure , You Want Delete Your Account !</p>
+          {% if user.is_authenticated %}
+              <form method='POST'>
+                    {%csrf_token%}
+                  <input class='pricingTable-firstTable_table__getstart submitbutton' style='color: rgb(54, 47, 47); background-color: red;' type="submit" name="" value="Yes , Delete My Account">
+              </form>
+          {% else %}
+              <p class='main_heading' >Register or Login to use the App</p>
+          {% endif %}
+        {% endif %}
+        </div>
+      </div>
+
+          </div>
+        </div>
+        
+
+
+  </body>
+</html>
+
+
+
+
+

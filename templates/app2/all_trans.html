@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load my_extra %}
+
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>TRANSACTIONS</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel = 'stylesheet' href ="{% static "css/home_css.css" %}"/> 
+<link rel = 'stylesheet' href ="{% static "css/tables.css" %}"/> 
+
+</head>
+<body>
+
+  <!-- navbar -->
+  {% block foo %}
+  {% include "app2/main_index.html" %}
+ {% endblock %}
+
+ <div class='shift_it' style='  margin:50px;
+ margin-left: 100px;
+ font-size: 40px;'>All Transactions with User {{required_email}} are here</div>
+    <!-- navbar end -->
+
+
+    <div class = "djangotwo"> 
+            {% if trans_record %}
+            <table style='margin-left: 100px; width: 80%; font-weight: bold;'>
+                <thead>
+                    <th style='color: rgb(47, 53, 65); font-size: 40px;'>Amount : </th>
+                    <th style='color: rgb(47, 53, 65); font-size: 40px;'>Date : </th>
+                    <th style='color: rgb(47, 53, 65); font-size: 40px;' >Desc : </th>
+                </thead>
+                {%  for t in trans_record %}
+                        <tr>
+                    {% if  t|check_for_this_user_transaction:combined_email %}    
+                        {% if t|find_trans:curr_user %}
+                                <td style='color:rgb(255, 115, 0); font-size: 30px; '>{{t.amount}}</td>
+                        {% else %}
+                            <tr>
+                                <td style = 'color:rgb(0, 255, 7); font-size: 30px;'>{{t.amount}}</td>
+                        {%endif%}
+
+                                <td style='color: rgb(133, 127, 187); font-size: 20px;'>{{t.tdate }}</td>
+                                <td style='color: rgb(133, 127, 187); font-size: 20px;'>{{t.desc}}</td>
+                            </tr>
+                    {%endif%}
+                {% endfor %}
+            </table>
+            {%endif%}
+        
+         </div>
+
+          {% if required_email %} 
+          {% if trans_record %}    
+            <!-- test -->
+            <div>
+                <form action="{% url 'app2:settle_trans' %}" method ="POST">
+                    {%csrf_token%}
+                    <input type ="hidden" name = "friend_id" value="{{required_email}}" />
+                    <button  class="pricingTable-firstTable_table__getstart"  type="submit"  style='margin-left: 90px; width: 200px; color: rgb(66, 61, 61); font-weight: bold; font-size: 20px;'>SETTLE UP</button>
+                </form>
+            </div>  
+            <!-- testend -->
+            {%endif%}
+          {% else %}
+            <div>
+                <div class='shift_it' style='  margin:50px;
+                margin-left: 100px;
+                font-size: 40px;'>No Transactions to Show</div>            </div>
+          {%endif%}
+            
+
+</body>
+</html>
